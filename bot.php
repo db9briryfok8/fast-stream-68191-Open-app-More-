@@ -6,7 +6,9 @@ $content = file_get_contents('php://input');
 $arrJson = json_decode($content, true);
  
 $strUrl = "https://api.line.me/v2/bot/message/reply";
- 
+$ch1 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/2/last.txt'); 
+$ch2 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/3/last.txt'); 
+&ch3 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/4/last.txt'); 
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
@@ -17,6 +19,13 @@ if($arrJson['events'][0]['message']['text'] == "help"){
   $arrPostData['messages'][0]['type'] = "text";
   $arrPostData['messages'][0]['text'] = "Funtion1 เช็คสถานะ : status \n
   Funtion2 เปิด/ปิด : ch+ช่อง+on, ch+ช่อง+off";
+}else if($arrJson['events'][0]['message']['text'] == "status"){
+  $arrPostData = array();
+  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
+  $arrPostData['messages'][0]['type'] = "text";
+  $arrPostData['messages'][0]['text'] = "Ch 1 :";
+  $arrPostData['messages'][0]['text'] = "Ch 2 :";
+  $arrPostData['messages'][0]['text'] = "Ch 3 :";
 }else if($arrJson['events'][0]['message']['text'] == "allon"){
   $arrPostData = array();
   $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
@@ -24,11 +33,6 @@ if($arrJson['events'][0]['message']['text'] == "help"){
   $arrPostData['messages'][0]['text'] = "Ch1 : On \n
   Ch2 : On \n
   Ch3 : On";
-}else if($arrJson['events'][0]['message']['text'] == "ทำอะไรได้บ้าง"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "ฉันทำอะไรไม่ได้เลย คุณต้องสอนฉันอีกเยอะ";
 }else{
   $arrPostData = array();
   $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
