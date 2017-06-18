@@ -5,6 +5,10 @@ $access_token = 'YtEkqziWr+71D8rmrS6dcUIvCJ7klheaY8Nsl58kYAWNyVbkWcFZfK0ovOE0K5e
 $content = file_get_contents('php://input');
 // Parse JSON
 $events = json_decode($content, true);
+
+$ch1 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/2/last.txt')
+$ch2 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/3/last.txt');
+$ch3 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/4/last.txt')	
 // Validate parsed JSON data
 if (!is_null($events['events'])) {
 	// Loop through each event
@@ -26,14 +30,14 @@ if (!is_null($events['events'])) {
 			if ($text == "help"){		
 				$messages = [
 				'type' => 'text',
-				'text' => "???????????? 1 ???????????????????????"."\n"."???????????? 2 ????????????????"
+				'text' => "Function ดูสถานะ : status"
 			];
 				
 			}	
-				if($text == "1"){		
+				if($text == "status"){		
 					$messages = [
 					'type' => 'text',
-					'text' => "??????????????? : ".$Light ."\n"."???????? C :".$TEM."\n"."???????? :".$HUM ."\n"."[???????????? help ???????????]"
+					'text' => "Ch1 : ".$ch1 ."\n"."Ch2 : ".$ch2."\n"."Ch3 : ".$ch3."\n"
 				];	
 			}
 			// Make a POST Request to Messaging API to reply to sender
