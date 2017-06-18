@@ -33,7 +33,7 @@ if($arrJson['events'][0]['message']['text'] == "help"){
   $arrPostData = array();
   $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
   $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "ฉันไม่เข้าใจคำสั่ง";
+  $arrPostData['messages'][0]['text'] = "ไม่มีคำสั่งต้องการ\n เปิดดูคำสั่งทั้งหมด พิมพ์ help";
 }
  
  
