@@ -17,7 +17,7 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			// Build message to reply back
-			if($messages = "help") [
+			if($messages == "help") [
 				'type' => 'text',
 				'text' => "Function ดูสถานะ : status"
 				];
