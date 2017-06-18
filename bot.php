@@ -6,9 +6,9 @@ $content = file_get_contents('php://input');
 // Parse JSON
 $events = json_decode($content, true);
 
-$ch1 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/2/last.txt')
+$ch1 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/2/last.txt');
 $ch2 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/3/last.txt');
-$ch3 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/4/last.txt')	
+$ch3 =file_get_contents('https://api.thingspeak.com/channels/287070/fields/4/last.txt');	
 // Validate parsed JSON data
 if (!is_null($events['events'])) {
 	// Loop through each event
