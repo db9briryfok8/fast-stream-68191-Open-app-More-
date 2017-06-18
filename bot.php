@@ -6,9 +6,7 @@ $content = file_get_contents('php://input');
 $arrJson = json_decode($content, true);
  
 $strUrl = "https://api.line.me/v2/bot/message/reply";
-$ch1 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/2/last.txt'); 
-$ch2 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/3/last.txt'); 
-&ch3 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/4/last.txt'); 
+
 $arrHeader = array();
 $arrHeader[] = "Content-Type: application/json";
 $arrHeader[] = "Authorization: Bearer {$strAccessToken}";
