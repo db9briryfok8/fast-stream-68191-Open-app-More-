@@ -1,52 +1,47 @@
 <?php
- 
-$strAccessToken = "YtEkqziWr+71D8rmrS6dcUIvCJ7klheaY8Nsl58kYAWNyVbkWcFZfK0ovOE0K5e3KvR+9UMBrJ9Sdo5nmd4IhfnGeWFzlBjNCbFGL3XjOqDqmf0T0FwvX5zCeMI37401E3zNPT2BBshLMuqZhlXDpwdB04t89/1O/w1cDnyilFU=";
- 
+$access_token = 'YtEkqziWr+71D8rmrS6dcUIvCJ7klheaY8Nsl58kYAWNyVbkWcFZfK0ovOE0K5e3KvR+9UMBrJ9Sdo5nmd4IhfnGeWFzlBjNCbFGL3XjOqDqmf0T0FwvX5zCeMI37401E3zNPT2BBshLMuqZhlXDpwdB04t89/1O/w1cDnyilFU=';
+
+// Get POST body content
 $content = file_get_contents('php://input');
-$arrJson = json_decode($content, true);
- 
-$strUrl = "https://api.line.me/v2/bot/message/reply";
+// Parse JSON
+$events = json_decode($content, true);
+// Validate parsed JSON data
+if (!is_null($events['events'])) {
+	// Loop through each event
+	foreach ($events['events'] as $event) {
+		// Reply only when message sent is in 'text' format
+		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
+			// Get text sent
+			$text = $event['message']['text'];
+			// Get replyToken
+			$replyToken = $event['replyToken'];
 
-$arrHeader = array();
-$arrHeader[] = "Content-Type: application/json";
-$arrHeader[] = "Authorization: Bearer {$strAccessToken}";
- 
-if($arrJson['events'][0]['message']['text'] == "help"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "Funtion1 เช็คสถานะ : status \n
-  Funtion2 เปิด/ปิด : ch+ช่อง+on, ch+ช่อง+off";
-}else if($arrJson['events'][0]['message']['text'] == "status"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "Ch1 : \n Ch2 : \n Ch3";
+			// Build message to reply back
+			$messages = [
+				'type' => 'text',
+				'text' => "พิมพ์ help เพื่อดูคำสั่งทั้งหมด"
+			];
 
-}else if($arrJson['events'][0]['message']['text'] == "allon"){
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "Ch1 : On \n
-  Ch2 : On \n
-  Ch3 : On";
-}else{
-  $arrPostData = array();
-  $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
-  $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "ไม่มีคำสั่งต้องการ\n เปิดดูคำสั่งทั้งหมด พิมพ์ help";
+			// Make a POST Request to Messaging API to reply to sender
+			$url = 'https://api.line.me/v2/bot/message/reply';
+			$data = [
+				'replyToken' => $replyToken,
+				'messages' => [$messages],
+			];
+			$post = json_encode($data);
+			$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+			$result = curl_exec($ch);
+			curl_close($ch);
+
+			echo $result . "\r\n";
+		}
+	}
 }
- 
- 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,$strUrl);
-curl_setopt($ch, CURLOPT_HEADER, false);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $arrHeader);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrPostData));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-$result = curl_exec($ch);
-curl_close ($ch);
- 
-?>
+echo "OK";
