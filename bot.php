@@ -23,9 +23,8 @@ if($arrJson['events'][0]['message']['text'] == "help"){
   $arrPostData = array();
   $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
   $arrPostData['messages'][0]['type'] = "text";
-  $arrPostData['messages'][0]['text'] = "Ch 1 :";
-  $arrPostData['messages'][0]['text'] = "Ch 2 :";
-  $arrPostData['messages'][0]['text'] = "Ch 3 :";
+  $arrPostData['messages'][0]['text'] = "Ch1 : \n Ch2 : \n Ch3";
+
 }else if($arrJson['events'][0]['message']['text'] == "allon"){
   $arrPostData = array();
   $arrPostData['replyToken'] = $arrJson['events'][0]['replyToken'];
