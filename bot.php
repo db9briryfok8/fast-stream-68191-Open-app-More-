@@ -6,6 +6,11 @@ $content = file_get_contents('php://input');
 // Parse JSON
 $events = json_decode($content, true);
 // Validate parsed JSON data
+
+
+$ch1 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/2/last.txt');
+$ch2 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/3/last.txt');
+$ch3 = file_get_contents('https://api.thingspeak.com/channels/287070/fields/4/last.txt');
 if (!is_null($events['events'])) {
 	// Loop through each event
 	foreach ($events['events'] as $event) {
@@ -21,6 +26,21 @@ if (!is_null($events['events'])) {
 				'type' => 'text',
 				'text' => $text
 			];
+			if (strtolower($text == "status"){
+				$messages = [
+				'type' => 'text',
+				'text' => "Ch1 : ".$ch1." \n
+					Ch2 : ".$ch2." \n
+					Ch3 : ".$ch3
+			];
+			if (strtolower($text) ==  "allon"){		
+				$messages = [
+				'type' => 'text',
+				'text' => "Ch1 : On \n
+					Ch2 : On \n
+					Ch3 : On "
+			];
+				
 
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
