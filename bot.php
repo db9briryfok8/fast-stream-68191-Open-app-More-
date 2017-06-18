@@ -21,6 +21,10 @@ if (!is_null($events['events'])) {
 				'type' => 'text',
 				'text' => "พิมพ์ help เพื่อดูคำสั่งทั้งหมด"
 			];
+			if($messages = "help") [
+				'type' => 'text',
+				'text' => "Function ดูสถานะ : status"
+				];
 
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
