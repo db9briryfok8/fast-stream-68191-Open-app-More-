@@ -26,11 +26,7 @@ if (!is_null($events['events'])) {
 				'type' => 'text',
 				'text' => $text
 			];
-			if ($text == "help"){		
- 				$messages = [
- 				'type' => 'text',
- 				'text' => "Function 1 : staus"
- 			];
+			
 			
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
@@ -53,5 +49,6 @@ if (!is_null($events['events'])) {
 			echo $result . "\r\n";
 		}
 	}
+	
 }
 echo "OK";
